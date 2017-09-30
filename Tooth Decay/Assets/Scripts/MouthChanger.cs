@@ -5,7 +5,7 @@ using UnityEngine;
 public class MouthChanger : MonoBehaviour
 {
 
-    public Texture2D spriteSheet;
+    public Texture2D mouthSpriteSheet;
 
     // The order in which the types are sorted must match that of the sprite sheet!
     public enum MouthTypes
@@ -21,7 +21,7 @@ public class MouthChanger : MonoBehaviour
     // Use this for initialization
     private void Start()
     {
-        sprites = Resources.LoadAll<Sprite>(spriteSheet.name);
+        sprites = Resources.LoadAll<Sprite>(mouthSpriteSheet.name);
 
         // Set the default mouth
         UpdateMouthSprite(MouthTypes.SAD);

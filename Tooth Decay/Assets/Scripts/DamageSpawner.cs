@@ -4,7 +4,7 @@ using UnityEngine;
 public class DamageSpawner : MonoBehaviour
 {
 
-    public Texture2D spriteSheet;
+    public Texture2D holeSpriteSheet;
     public Transform spawnLocations;
     public GameObject holePrefab;
 
@@ -17,7 +17,7 @@ public class DamageSpawner : MonoBehaviour
     private void Start()
     {
         // Load every sprite from the sprite sheet
-        sprites = Resources.LoadAll<Sprite>(spriteSheet.name);
+        sprites = Resources.LoadAll<Sprite>(holeSpriteSheet.name);
 
         emptySpawnPositions = new List<Transform>();
         occupiedSpawnPositions = new List<Transform>();
