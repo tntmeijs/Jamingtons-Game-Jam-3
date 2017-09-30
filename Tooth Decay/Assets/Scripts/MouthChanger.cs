@@ -5,15 +5,31 @@ using UnityEngine;
 public class MouthChanger : MonoBehaviour
 {
 
+    public Texture2D spriteSheet;
+
+    // The order in which the types are sorted must match that of the sprite sheet!
+    public enum MouthTypes
+    {
+        SAD = 0,
+        AMAZED,
+        NO_EMOTION,
+        HAPPY
+    };
+
+    private Sprite[] sprites;
+
     // Use this for initialization
     private void Start()
     {
+        sprites = Resources.LoadAll<Sprite>(spriteSheet.name);
 
+        // Set the default mouth
+        UpdateMouthSprite(MouthTypes.SAD);
     }
 
-    // Update is called once per frame
-    private void Update()
+    public void UpdateMouthSprite(MouthTypes newType)
     {
-
+        GetComponent<SpriteRenderer>().sprite = sprites[(int)newType];
     }
+
 }
