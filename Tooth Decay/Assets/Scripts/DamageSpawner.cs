@@ -23,13 +23,6 @@ public class DamageSpawner : MonoBehaviour
         occupiedSpawnPositions = new List<Transform>();
 
         loadSpawnLocations();
-
-        spawnDamage();
-    }
-
-    // Update is called once per frame
-    private void Update()
-    {
     }
 
     private void loadSpawnLocations()
@@ -45,11 +38,7 @@ public class DamageSpawner : MonoBehaviour
 
     private void spawnSingleDamageSprite()
     {
-        if (emptySpawnPositions.Count == 0)
-        {
-            Debug.Log("Whoops, no more empty positions!");
-            return;
-        }
+        if (emptySpawnPositions.Count == 0) { return; }
 
         // Pick a random empty transform from the list
         int randomPositionIndex = Random.Range(0, emptySpawnPositions.Count - 1);
@@ -67,7 +56,7 @@ public class DamageSpawner : MonoBehaviour
         newSprite.GetComponent<SpriteRenderer>().sprite = sprites[Random.Range(0, sprites.Length - 1)];
     }
 
-    private void spawnDamage()
+    public void spawnDamage()
     {
         // Random number of "holes" to be added to the tooth
         // To keep things fun, not every transform can have a hole assigned to it
@@ -79,4 +68,5 @@ public class DamageSpawner : MonoBehaviour
             spawnSingleDamageSprite();
         }
     }
+
 }
