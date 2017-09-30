@@ -4,72 +4,59 @@ using UnityEngine;
 
 public class Hole : MonoBehaviour
 {
-
-    public Texture2D bandAidSpriteSheet;
+    
+    public GameObject bandaidPrefab;
 
     private Sprite[] sprites;
     private bool hasBandaid;
-    private KeyCode activeKey;
-
-    // All keys that can be used to patch a hole
-    private List<KeyCode> keyCollection = new List<KeyCode>()
-    {
-        KeyCode.A,
-        KeyCode.B,
-        KeyCode.C,
-        KeyCode.D,
-        KeyCode.E,
-        KeyCode.F,
-        KeyCode.G,
-        KeyCode.H,
-        KeyCode.I,
-        KeyCode.J,
-        KeyCode.K,
-        KeyCode.L,
-        KeyCode.M,
-        KeyCode.N,
-        KeyCode.O,
-        KeyCode.P,
-        KeyCode.Q,
-        KeyCode.R,
-        KeyCode.S,
-        KeyCode.T,
-        KeyCode.U,
-        KeyCode.V,
-        KeyCode.W,
-        KeyCode.X,
-        KeyCode.Y,
-        KeyCode.Z
-    };
+    private int clickPerSecondThreshold;
+    private int clicksInTotal;
+    private float timerAccumulator;
 
     // Use this for initialization
     private void Start()
     {
-        sprites = Resources.LoadAll<Sprite>(bandAidSpriteSheet.name);
-
         hasBandaid = false;
 
-        pickRandomKey();
+        // Add a proper collider
+        gameObject.AddComponent<PolygonCollider2D>();
 
-        Debug.Log(activeKey);
+        // Random number of mouse clicks per second
+        clickPerSecondThreshold = Random.Range(1, 6);
+        float randomScale = Random.Range(0.6f, 1.0f);
+        transform.localScale = new Vector2(randomScale, randomScale);
+        transform.rotation = new Quaternion(Quaternion.identity.x, Quaternion.identity.y, Random.rotation.eulerAngles.z, Quaternion.identity.w);
+
+        clicksInTotal = 0;
+        timerAccumulator = 0.0f;
+
+        ++DamageSpawner.holesLeftToPolish;
     }
 
     // Update is called once per frame
     private void Update()
     {
-        // Hole should be patched by holding a random key
-        if (!hasBandaid)
+        timerAccumulator += Time.deltaTime;
+
+        if (timerAccumulator >= 1.0f)
         {
-        }
-        // Hole should be fixed by polishing
-        else
-        {
+            clicksInTotal = 0;
+            timerAccumulator = 0.0f;
         }
     }
 
-    private void pickRandomKey()
+    private void OnMouseDown()
     {
-        activeKey = keyCollection[Random.Range(0, keyCollection.Count - 1)];
+        // TODO: use true clicks per second calculation
+        if (hasBandaid) { return; }
+        
+        ++clicksInTotal;
+
+        if (clicksInTotal >= clickPerSecondThreshold)
+        {
+            Instantiate(bandaidPrefab, transform);
+            hasBandaid = true;
+        }
     }
 
 }

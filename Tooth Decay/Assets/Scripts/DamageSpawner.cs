@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class DamageSpawner : MonoBehaviour
 {
@@ -7,6 +8,8 @@ public class DamageSpawner : MonoBehaviour
     public Texture2D holeSpriteSheet;
     public Transform spawnLocations;
     public GameObject holePrefab;
+    public MouthChanger mouth;
+    static public int holesLeftToPolish;
 
     private Sprite[] sprites;
     private List<Transform> emptySpawnPositions;
@@ -25,6 +28,28 @@ public class DamageSpawner : MonoBehaviour
         loadSpawnLocations();
     }
 
+    private void Update()
+    {
+        float percentage = ((float)holesLeftToPolish / (float)occupiedSpawnPositions.Count) * 100.0f;
+
+        if (percentage >= 75.0f)
+        {
+            mouth.UpdateMouthSprite(MouthChanger.MouthTypes.SAD);
+        }
+        else if (percentage >= 50.0f)
+        {
+            mouth.UpdateMouthSprite(MouthChanger.MouthTypes.NO_EMOTION);
+        }
+        else if (percentage >= 25.0f)
+        {
+            mouth.UpdateMouthSprite(MouthChanger.MouthTypes.HAPPY);
+        }
+        else
+        {
+            mouth.UpdateMouthSprite(MouthChanger.MouthTypes.AMAZED);
+        }
+    }
+
     private void loadSpawnLocations()
     {
         foreach (Transform child in spawnLocations)
@@ -41,7 +66,7 @@ public class DamageSpawner : MonoBehaviour
         if (emptySpawnPositions.Count == 0) { return; }
 
         // Pick a random empty transform from the list
-        int randomPositionIndex = Random.Range(0, emptySpawnPositions.Count - 1);
+        int randomPositionIndex = Random.Range(0, emptySpawnPositions.Count);
         Transform transform = emptySpawnPositions[randomPositionIndex];
 
         // Indicate that the transform is now occupied
@@ -50,10 +75,10 @@ public class DamageSpawner : MonoBehaviour
         // Remove the occupied transform from the empty transform list
         emptySpawnPositions.RemoveAt(randomPositionIndex);
 
-        GameObject newSprite = Instantiate(holePrefab, transform.position, new Quaternion(Quaternion.identity.x, Quaternion.identity.y, Random.rotation.z, Quaternion.identity.w));
+        GameObject newHole = Instantiate(holePrefab, transform.position, new Quaternion(Quaternion.identity.x, Quaternion.identity.y, Random.rotation.z, Quaternion.identity.w));
 
         // Assign a random hole
-        newSprite.GetComponent<SpriteRenderer>().sprite = sprites[Random.Range(0, sprites.Length - 1)];
+        newHole.GetComponent<SpriteRenderer>().sprite = sprites[Random.Range(0, sprites.Length)];
     }
 
     public void spawnDamage()
@@ -61,7 +86,7 @@ public class DamageSpawner : MonoBehaviour
         // Random number of "holes" to be added to the tooth
         // To keep things fun, not every transform can have a hole assigned to it
         // Otherwise the tooth will look bad in-game
-        int holeCount = Random.Range(1, totalHolePositions - 3);
+        int holeCount = Random.Range(1, totalHolePositions - 4);
 
         for (int i = 0; i < holeCount; ++i)
         {
