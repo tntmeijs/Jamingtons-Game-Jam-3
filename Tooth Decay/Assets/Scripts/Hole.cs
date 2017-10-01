@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class Hole : MonoBehaviour
 {
-    
+
+    public AudioClip drillSound;
     public GameObject bandaidPrefab;
     public int scoreValue = 10;
     
@@ -12,6 +13,7 @@ public class Hole : MonoBehaviour
     private int clickPerSecondThreshold;
     private int clicksInTotal;
     private float timerAccumulator;
+    private AudioSource audioSource;
 
     // Use this for initialization
     private void Start()
@@ -29,6 +31,8 @@ public class Hole : MonoBehaviour
 
         clicksInTotal = 0;
         timerAccumulator = 0.0f;
+
+        audioSource = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -49,6 +53,8 @@ public class Hole : MonoBehaviour
         if (hasBandaid && Cursor.state != Cursor.CursorState.DRILL) { return; }
         
         ++clicksInTotal;
+
+        audioSource.PlayOneShot(drillSound);
 
         if (clicksInTotal >= clickPerSecondThreshold)
         {

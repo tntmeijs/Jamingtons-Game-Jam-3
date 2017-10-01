@@ -25,6 +25,8 @@ public class DamageSpawner : MonoBehaviour
         emptySpawnPositions = new List<Transform>();
         occupiedSpawnPositions = new List<Transform>();
 
+        holesLeftToPolish = 0;
+
         loadSpawnLocations();
 
         spawnDamage();

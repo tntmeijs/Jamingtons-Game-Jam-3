@@ -7,6 +7,7 @@ public class Bandaid : MonoBehaviour
 
     public Texture2D bandaidSpriteSheet;
     public AudioClip polishBrush;
+    public AudioClip bandaidSticky;
     public int scoreValue = 15;
 
     private Sprite[] sprites;
@@ -34,6 +35,8 @@ public class Bandaid : MonoBehaviour
         enteredArea = false;
 
         audioSource = GetComponent<AudioSource>();
+
+        audioSource.PlayOneShot(bandaidSticky);
     }
 
     // Update is called once per frame

@@ -13,7 +13,6 @@ public class GameManager : MonoBehaviour
     public float interpolationTimeSeconds = 0.75f;
     public float interpolationDistancePixels = 400.0f;
     public static int score = 0;
-    public static int previousScore = 0;
     public float gameTimerStart = 25.0f;
 
     private string scorePrefix = "Score: ";
@@ -56,6 +55,7 @@ public class GameManager : MonoBehaviour
         if (gameTimerAccumulator >= gameTimerStart)
         {
             gameTimerAccumulator = gameTimerStart;
+            gameTimerAccumulator = 0.0f;
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
         }
 
