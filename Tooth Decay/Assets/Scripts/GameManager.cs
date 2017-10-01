@@ -35,7 +35,7 @@ public class GameManager : MonoBehaviour
         {
             interpolationFraction += Time.deltaTime / interpolationTimeSeconds;
 
-            currentTooth.transform.position = new Vector3(  interpolateAnticipate(interpolationFraction) * interpolationDistancePixels,
+            currentTooth.transform.position = new Vector3(  Utils.interpolateAnticipate(interpolationFraction) * interpolationDistancePixels,
                                                             currentTooth.transform.position.y, currentTooth.transform.position.z);
 
             if (interpolationFraction >= 1.0f)
@@ -47,12 +47,6 @@ public class GameManager : MonoBehaviour
                 interpolationFraction = 0.0f;
             }
         }
-    }
-
-    private float interpolateAnticipate(float fractionNormalized)
-    {
-        float tension = 4.0f;
-        return fractionNormalized * fractionNormalized * ((tension + 2.0f) * fractionNormalized - tension);
     }
 
 }
