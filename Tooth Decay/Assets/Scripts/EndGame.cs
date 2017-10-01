@@ -26,7 +26,7 @@ public class EndGame : MonoBehaviour
             }
             else
             {
-                highScore.text = "You've beaten the high-score (" + previousHighScore + ") by" + ((int)(((float)previousHighScore / GameManager.score) * 100)).ToString() + "%!";
+                highScore.text = "Your score is " + ((int)(((float)previousHighScore / GameManager.score) * 100)).ToString() + "% higher than the previous high-score(" + previousHighScore + ")!";
             }
 
             previousHighScore = GameManager.score;
