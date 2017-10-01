@@ -45,7 +45,7 @@ public class Hole : MonoBehaviour
     private void OnMouseDown()
     {
         // TODO: use true clicks per second calculation
-        if (hasBandaid) { return; }
+        if (hasBandaid && Cursor.state != Cursor.CursorState.DRILL) { return; }
         
         ++clicksInTotal;
 

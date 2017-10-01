@@ -5,10 +5,16 @@ using UnityEngine;
 public class Tooth : MonoBehaviour
 {
 
+    public AudioClip toothHealthy;
+    public AudioClip toothSpawn;
+
     public bool isFixed = false;
     public float interpolationTimeSeconds = 2.5f;
 
+    private AudioSource audioSource;
     private bool shouldInterpolate;
+    private bool playedSpawnSound;
+    private bool playedDespawnSound;
     private float targetScale;
     private float interpolationAccumulator;
 
@@ -23,6 +29,17 @@ public class Tooth : MonoBehaviour
 
         shouldInterpolate = true;
         interpolationAccumulator = 0.0f;
+
+        audioSource = GetComponent<AudioSource>();
+
+        playedSpawnSound = false;
+        playedDespawnSound = false;
+
+        if (!playedSpawnSound)
+        {
+            audioSource.PlayOneShot(toothSpawn);
+            playedSpawnSound = true;
+        }
     }
 
     private void LateUpdate()
@@ -30,6 +47,13 @@ public class Tooth : MonoBehaviour
         if (DamageSpawner.holesLeftToPolish == 0)
         {
             isFixed = true;
+
+            if (!playedDespawnSound)
+            {
+                audioSource.pitch = 1.5f;
+                audioSource.PlayOneShot(toothHealthy);
+                playedDespawnSound = true;
+            }
         }
     }
 

@@ -6,12 +6,14 @@ public class Bandaid : MonoBehaviour
 {
 
     public Texture2D bandaidSpriteSheet;
+    public AudioClip polishBrush;
 
     private Sprite[] sprites;
     private float timerAccumulator;
     private int swipesPerSecondThreshold;
     private int swipesInTotal;
     private bool enteredArea;
+    private AudioSource audioSource;
 
     // Use this for initialization
     private void Start()
@@ -30,6 +32,7 @@ public class Bandaid : MonoBehaviour
         swipesInTotal = 0;
         enteredArea = false;
 
+        audioSource = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -46,6 +49,8 @@ public class Bandaid : MonoBehaviour
 
     private void OnMouseExit()
     {
+        if (Cursor.state != Cursor.CursorState.TOOTH_BRUSH) { return; }
+
         ++swipesInTotal;
 
         if (swipesInTotal >= swipesPerSecondThreshold)
@@ -54,6 +59,8 @@ public class Bandaid : MonoBehaviour
             --DamageSpawner.holesLeftToPolish;
             Destroy(transform.parent.gameObject);
         }
+
+        audioSource.PlayOneShot(polishBrush);
     }
 
 }
