@@ -6,8 +6,7 @@ public class Hole : MonoBehaviour
 {
     
     public GameObject bandaidPrefab;
-
-    private Sprite[] sprites;
+    
     private bool hasBandaid;
     private int clickPerSecondThreshold;
     private int clicksInTotal;
@@ -29,8 +28,6 @@ public class Hole : MonoBehaviour
 
         clicksInTotal = 0;
         timerAccumulator = 0.0f;
-
-        ++DamageSpawner.holesLeftToPolish;
     }
 
     // Update is called once per frame

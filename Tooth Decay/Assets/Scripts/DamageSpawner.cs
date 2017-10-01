@@ -26,11 +26,13 @@ public class DamageSpawner : MonoBehaviour
         occupiedSpawnPositions = new List<Transform>();
 
         loadSpawnLocations();
+
+        spawnDamage();
     }
 
     private void Update()
     {
-        float percentage = ((float)holesLeftToPolish / (float)occupiedSpawnPositions.Count) * 100.0f;
+        float percentage = ((float)holesLeftToPolish / occupiedSpawnPositions.Count) * 100.0f;
 
         if (percentage >= 75.0f)
         {
@@ -75,18 +77,21 @@ public class DamageSpawner : MonoBehaviour
         // Remove the occupied transform from the empty transform list
         emptySpawnPositions.RemoveAt(randomPositionIndex);
 
-        GameObject newHole = Instantiate(holePrefab, transform.position, new Quaternion(Quaternion.identity.x, Quaternion.identity.y, Random.rotation.z, Quaternion.identity.w));
+        GameObject newHole = Instantiate(holePrefab, transform);
+        newHole.transform.rotation = new Quaternion(Quaternion.identity.x, Quaternion.identity.y, Random.rotation.z * 5.0f, Quaternion.identity.w);
 
         // Assign a random hole
         newHole.GetComponent<SpriteRenderer>().sprite = sprites[Random.Range(0, sprites.Length)];
+
+        ++holesLeftToPolish;
     }
 
-    public void spawnDamage()
+    private void spawnDamage()
     {
         // Random number of "holes" to be added to the tooth
         // To keep things fun, not every transform can have a hole assigned to it
         // Otherwise the tooth will look bad in-game
-        int holeCount = Random.Range(1, totalHolePositions - 4);
+        int holeCount = Random.Range(1, totalHolePositions / 2);
 
         for (int i = 0; i < holeCount; ++i)
         {

@@ -4,16 +4,24 @@ using UnityEngine;
 
 public class Tooth : MonoBehaviour
 {
-    
-    public DamageSpawner damageSpawner;
 
-    private int holesLeftToPath;
-    private int holesPathed;
+    public bool isFixed = false;
 
     // Use this for initialization
     private void Start()
     {
-        damageSpawner.spawnDamage();
+    }
+
+    private void LateUpdate()
+    {
+        if (DamageSpawner.holesLeftToPolish == 0)
+        {
+            isFixed = true;
+        }
+    }
+
+    private void Update()
+    {
     }
 
 }
