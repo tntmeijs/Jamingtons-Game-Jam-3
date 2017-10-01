@@ -16,9 +16,4 @@ public class Tooth : MonoBehaviour
         damageSpawner.spawnDamage();
     }
 
-    // Update is called once per frame
-    private void Update()
-    {
-    }
-
 }
