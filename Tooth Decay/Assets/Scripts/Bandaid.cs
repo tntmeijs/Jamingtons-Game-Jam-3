@@ -7,6 +7,7 @@ public class Bandaid : MonoBehaviour
 
     public Texture2D bandaidSpriteSheet;
     public AudioClip polishBrush;
+    public int scoreValue = 15;
 
     private Sprite[] sprites;
     private float timerAccumulator;
@@ -55,6 +56,8 @@ public class Bandaid : MonoBehaviour
 
         if (swipesInTotal >= swipesPerSecondThreshold)
         {
+            GameManager.score += scoreValue;
+
             // Remove the hole + bandaid
             --DamageSpawner.holesLeftToPolish;
             Destroy(transform.parent.gameObject);

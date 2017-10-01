@@ -10,6 +10,7 @@ public class Tooth : MonoBehaviour
 
     public bool isFixed = false;
     public float interpolationTimeSeconds = 2.5f;
+    public int scoreValue = 50;
 
     private AudioSource audioSource;
     private bool shouldInterpolate;
@@ -53,6 +54,8 @@ public class Tooth : MonoBehaviour
                 audioSource.pitch = 1.5f;
                 audioSource.PlayOneShot(toothHealthy);
                 playedDespawnSound = true;
+
+                GameManager.score += scoreValue;
             }
         }
     }

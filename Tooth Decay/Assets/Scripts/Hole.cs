@@ -6,6 +6,7 @@ public class Hole : MonoBehaviour
 {
     
     public GameObject bandaidPrefab;
+    public int scoreValue = 10;
     
     private bool hasBandaid;
     private int clickPerSecondThreshold;
@@ -51,6 +52,7 @@ public class Hole : MonoBehaviour
 
         if (clicksInTotal >= clickPerSecondThreshold)
         {
+            GameManager.score += scoreValue;
             Instantiate(bandaidPrefab, transform);
             hasBandaid = true;
         }
